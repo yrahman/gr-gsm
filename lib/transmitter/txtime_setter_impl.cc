@@ -96,7 +96,7 @@ namespace gr {
       fn_time = pmt::dict_ref(msg,
         pmt::intern("fn_time"), not_found);
       time_hint = pmt::dict_ref(msg,
-        pmt::intern("fn_time"), not_found);
+        pmt::intern("time_hint"), not_found);
 
       if (fn_time != not_found) {
         uint32_t fn_ref = static_cast<uint32_t>

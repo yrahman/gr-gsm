@@ -8,8 +8,8 @@ RUN pip install PyBOMBS && \
     pybombs auto-config && \
     pybombs recipes add-defaults
 
-RUN pybombs prefix init ~/prefix -a myprefix -R gnuradio-default -y
-RUN pybombs install gr-gsm -y
+RUN pybombs -y prefix init ~/prefix -a myprefix -R gnuradio-default
+RUN pybombs -y install gr-gsm 
 
 COPY ./ /src/
 RUN ls /src

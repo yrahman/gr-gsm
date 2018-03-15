@@ -2,7 +2,8 @@ FROM ubuntu:16.04
 MAINTAINER Piotr Krysik
 
 RUN apt-get update && apt-get install -y \
-    python-pip
+    python-pip \
+    python-apt
 
 RUN pip install PyBOMBS && \
     pybombs auto-config && \

@@ -9,16 +9,20 @@ RUN pip install PyBOMBS && \
     pybombs auto-config && \
     pybombs recipes add-defaults
 
-RUN pybombs -y prefix init ~/prefix -a myprefix -R gnuradio-default
-RUN pybombs -y install gr-gsm 
+RUN pybombs -y prefix init ~/prefix  -a myprefix
 
-COPY ./ /src/
-RUN ls /src
+RUN cat ~/prefix/.pybombs/config.yml |     \
+    awk '{ if((lastLine ~ "gnuradio:") || \
+           (lastLine ~ "hardware:"))      \
+           {printf "    forcebuild: false\n"} \
+           else{print} { lastLine = $0 }}' > \
+           ~/prefix/.pybombs/config.yml.tmp && \
+           mv -f ~/prefix/.pybombs/config.yml.tmp ~/prefix/.pybombs/config.yml
 
-RUN mkdir /src/build
-WORKDIR /src/build
-RUN cmake .. && \
-    make && \
-    make install && \
-    ldconfig && \
+RUN pybombs -y install gr-gsm
+
+WORKDIR cd ~/prefix/src/gr-gsm/build
+RUN git checkout $TRAVIS_COMMIT
+
+RUN make && \
     make test

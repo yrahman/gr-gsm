@@ -21,8 +21,10 @@ RUN cat ~/prefix/.pybombs/config.yml |     \
 
 RUN pybombs -y install gr-gsm
 
-WORKDIR cd ~/prefix/src/gr-gsm/build
-RUN git checkout $TRAVIS_COMMIT
+
+WORKDIR ~/prefix/src/gr-gsm/
+#RUN git checkout $TRAVIS_COMMIT
+WORKDIR ~/prefix/src/gr-gsm/build
 
 RUN make && \
     make test
